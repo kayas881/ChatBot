@@ -1,0 +1,46 @@
+/* SlideBar.css */
+
+.sidebar-container {
+  width: 300px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background-color: pink; /* Adjust the background color as needed */
+}
+
+.sidebar-title {
+  color: #fff; /* Adjust the text color as needed */
+}
+
+.sidebar-links {
+  list-style-type: none;
+  background-color: pink;
+  padding: 0;
+  margin: 0;
+  margin-top: 20px;
+}
+
+.sidebar-item {
+  margin-bottom: 50px;
+}
+
+.sidebar-link {
+  text-decoration: none;
+  color: black; /* Adjust the text color as needed */
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-link:hover {
+  background-color: #ff69b4; /* Adjust the hover background color as needed */
+  transform: scale(1.05);
+  border-radius: 8px;
+}
+
+.arrow-icon {
+  margin-left: auto;
+  color: #fff; /* Adjust the arrow color as needed */
+}
