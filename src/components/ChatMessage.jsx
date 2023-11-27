@@ -1,7 +1,16 @@
+// ChatMessage.js
+
 import React from "react";
 import "./../index.css";
 
-const ChatMessage = ({ type, message, profilePicture, botName, isTyping }) => {
+const ChatMessage = ({
+  type,
+  message,
+  profilePicture,
+  botName,
+  isTyping,
+  user,
+}) => {
   const renderMessage = () => {
     if (isTyping) {
       return (
@@ -27,9 +36,21 @@ const ChatMessage = ({ type, message, profilePicture, botName, isTyping }) => {
     <div
       className={`chat ${
         type === "user" ? "outgoing" : "incoming"
-      } p-3 my-2 rounded ${type === "incoming" ? "fadeIn" : ""}`}
+      } p-3 my-2 rounded ${type === "incoming" ? "fadeIn" : ""} `}
     >
       <div className="chat-details">
+        {type === "user" && (
+          <div className="user-info flex">
+            <img
+              src={user.profilePicture}
+              alt={`${user.userName}'s Avatar`}
+              className="avatar w-10"
+            />
+            <p className="user-name pl-3 mt-2 font-extrabold text-pink-300">
+              {user.userName}
+            </p>
+          </div>
+        )}
         {type === "incoming" && (
           <div className="bot-info flex">
             <img

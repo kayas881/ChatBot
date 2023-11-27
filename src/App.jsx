@@ -8,9 +8,9 @@ import questionsAndResponses from "./components/Data";
 import pfp from "./assets/logo.png";
 import stringSimilarity from "string-similarity"; // Import the library
 import SideBar from "./components/SideBar";
-import backgroundImg from "./assets/backround.png";
+import backgroundImg from "./assets/backround.jpg";
 import mobileBackroundImg from "./assets/backroundmobile.png";
-
+import userpfp from "./assets/userpfp.png";
 function App() {
   const [chatMessages, setChatMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
@@ -18,13 +18,20 @@ function App() {
   const [questionsVisible, setQuestionsVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isTyping, setIsTyping] = useState(false);
-
+  const [userName, setUserName] = useState("Strawberry");
   const chatContainerRef = useRef(null);
 
-  const addUserMessage = (message) => {
+  const addUserMessage = (message, userPfp, userName) => {
     setChatMessages((prevMessages) => [
       ...prevMessages,
-      { type: "user", message },
+      {
+        type: "user",
+        message,
+        user: {
+          profilePicture: userPfp,
+          userName,
+        },
+      },
     ]);
   };
 
@@ -56,7 +63,7 @@ function App() {
     let userInput = question || inputMessage.trim();
 
     if (userInput !== "") {
-      addUserMessage(userInput);
+      addUserMessage(userInput, userpfp, "Strawberry"); // Make sure userpfp and "Strawberry" are correct
       setInputMessage("");
 
       setIsTyping(true);
@@ -120,23 +127,13 @@ function App() {
     ...new Set(questionsAndResponses.map((item) => item.category)),
   ];
   return (
-    <div className="App min-h-screen bg-slate-100 flex">
-      <div className=" max-md:hidden">
+    <div className="App w-full min-h-screen bg-slate-100 md:flex ">
+      <div className="max-md:hidden">
         <SideBar />
       </div>
-      <div
-        className="min-h-screen bg-pink-50 w-full flex flex-col items-center justify-end"
-        style={{
-          backgroundImage: `url(${
-            window.innerWidth > 767 ? backgroundImg : mobileBackroundImg
-          })`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-        }}
-      >
+      <div className="Container min-h-screen  bg-pink-50 w-full flex flex-col items-center justify-end ">
         <div
-          className="chat-container max-h-[400px] overflow-y-auto bg-pink-50"
+          className="chat-container max-h-[400px] overflow-y-auto "
           ref={chatContainerRef}
         >
           {chatMessages.map((msg, index) => (
@@ -147,6 +144,7 @@ function App() {
               profilePicture={msg.profilePicture}
               botName={msg.botName}
               isTyping={isTyping && index === chatMessages.length - 1}
+              user={msg.user} // Pass the user prop
             />
           ))}
         </div>
@@ -177,10 +175,10 @@ function App() {
         </div>
 
         <div className="typing-container  ">
-          <div className="typing-content w-[1200px] flex justify-center">
-            <div className="typing-textarea flex justify-center items-center mb-6">
+          <div className="typing-content w-[1200px] flex justify-center ml-8">
+            <div className="typing-textarea flex justify-center items-center mb-6 ">
               <textarea
-                className="w-[900px] rounded-lg bg-pink-50"
+                className="w-[900px] rounded-lg bg-pink-50 ml-[120px] "
                 id="chat-input"
                 spellCheck="false"
                 placeholder="What can I assist with today?"
@@ -193,7 +191,7 @@ function App() {
               ></textarea>
               <span
                 id="send-btn"
-                className="material-symbols-rounded flex justify-start items-center w-[80px]  h-[80px] cursor-pointer "
+                className="material-symbols-rounded flex justify-start items-center w-[80px]  h-[80px] cursor-pointer ml-4"
                 onClick={() => handleUserInput()}
               >
                 <IoMdSend size={30} />

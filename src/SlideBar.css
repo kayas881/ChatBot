@@ -5,7 +5,10 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  background-color: pink; /* Adjust the background color as needed */
+  background-image: url('./assets/backroundmobile.png'); /* Specify the path to your background image */
+  background-size: cover; /* This property ensures that the background image covers the entire container */
+  background-repeat: no-repeat; /* Prevent the background image from repeating */
+  background-position: center center; /* Center the background image */
 }
 
 .sidebar-title {
@@ -14,7 +17,7 @@
 
 .sidebar-links {
   list-style-type: none;
-  background-color: pink;
+  background-color: transparent;
   padding: 0;
   margin: 0;
   margin-top: 20px;
@@ -26,7 +29,7 @@
 
 .sidebar-link {
   text-decoration: none;
-  color: black; /* Adjust the text color as needed */
+  background-color: rgba(253, 242, 248, 0.7);
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;

@@ -42,7 +42,7 @@ const SideBar = () => {
       <h1 className="sidebar-title w-full text-3xl font-bold text-[#00df9a] ">
         Helpful Links
       </h1>
-      <ul className="sidebar-links ">
+      <ul className="sidebar-links font-extraBolddd ">
         {links.map((link, index) => (
           <li key={index} className="sidebar-item">
             <a

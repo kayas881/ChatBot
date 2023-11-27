@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@800&family=Red+Hat+Text:wght@700&family=Space+Grotesk:wght@500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
 
   /* Add this to your CSS file */
 .typing-animation {
@@ -38,8 +38,18 @@
 
   /* Media query for screens with a maximum width of 767px (typical mobile screens) */
 @media (max-width: 767px) {
+
+  .Container {
+    max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
   .categories-container {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: #000;
+    
   }
 
   .questions-container {
@@ -55,8 +65,34 @@
     width: 100%;
     padding: 0 10px; /* Add some padding on both sides */
   }
-  .min-h-screen {
-    background-image: url('./assets/mobileBackround.png'); 
-    background-size: cover;
+  .chat-container {
+    flex-grow: 1; /* Allow the chat container to grow and take up remaining space */
+    overflow-y: auto; /* Enable vertical scrolling within the chat container */
+  }
+}
+
+.chat-container {
+  background-color: 	#F8C8DC;
+}
+
+
+.Container {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@media (max-width: 767px) {
+  .Container {
+    background-image: url('./assets//backroundmobile.png');
+background-size: cover;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .Container {
+    background-image: url('./assets/backround.jpg');
+    
   }
 }
