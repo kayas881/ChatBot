@@ -127,13 +127,13 @@ function App() {
     ...new Set(questionsAndResponses.map((item) => item.category)),
   ];
   return (
-    <div className="App w-full min-h-screen bg-slate-100 md:flex ">
+    <div className="App   md:flex max-md:overflow-hidden ">
       <div className="max-md:hidden">
         <SideBar />
       </div>
-      <div className="Container min-h-screen  bg-pink-50 w-full flex flex-col items-center justify-end ">
+      <div className="Container h-screen w-full flex flex-col items-center justify-end overflow-hidden max-md:max-h-full max-md:overflow-y-hidden">
         <div
-          className="chat-container max-h-[400px] overflow-y-auto "
+          className="chat-container max-h-[600px] overflow-y-auto  "
           ref={chatContainerRef}
         >
           {chatMessages.map((msg, index) => (
@@ -149,7 +149,7 @@ function App() {
           ))}
         </div>
 
-        <div className="categories-container w-[900px] flex flex-wrap justify-evenly mb-4 font-bold text-pink-50 capitalize tracking-wider">
+        <div className="categories-container md:ml-[60px] w-[900px] flex flex-wrap justify-evenly mb-4 font-bold text-pink-50 capitalize tracking-wider max-md:w-[330px]  max-md:grid max-md:grid-cols-2 max-md:gap-2">
           {/* Render unique categories */}
           {uniqueCategories.map((category, index) => (
             <Category
@@ -176,31 +176,43 @@ function App() {
 
         <div className="typing-container  ">
           <div className="typing-content w-[1200px] flex justify-center ml-8">
-            <div className="typing-textarea flex justify-center items-center mb-6 ">
-              <textarea
-                className="w-[900px] rounded-lg bg-pink-50 ml-[120px] "
-                id="chat-input"
-                spellCheck="false"
-                placeholder="What can I assist with today?"
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-                style={{
-                  width: window.innerWidth > 767 ? "800px" : "300px", // Set a larger height on smaller screens
-                }}
-                required
-              ></textarea>
-              <span
-                id="send-btn"
-                className="material-symbols-rounded flex justify-start items-center w-[80px]  h-[80px] cursor-pointer ml-4"
-                onClick={() => handleUserInput()}
-              >
-                <IoMdSend size={30} />
-              </span>
+            <div className="typing-textarea flex justify-center items-center mb-8 md:mr-10 relative">
+              <div className="flex-grow">
+                <textarea
+                  className="textarea rounded-lg bg-pink-50 ml-[120px] h-[60px] max-h-[120px] max-md:h-12 flex items-center placeholder:text-[14px]"
+                  id="chat-input"
+                  spellCheck="false"
+                  placeholder="What can I assist with today?"
+                  value={inputMessage}
+                  onChange={(e) => setInputMessage(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleUserInput();
+                    }
+                  }}
+                  style={{
+                    width: window.innerWidth > 767 ? "800px" : "250px",
+                    padding: "10px",
+                    lineHeight: "20px",
+                  }}
+                  required
+                ></textarea>
+
+                <span
+                  id="send-btn"
+                  className="send-btn absolute top-8 right-0 transform -translate-y-1/2 cursor-pointer mr-4 max-md:right-2 max-md:top-6"
+                  onClick={() => handleUserInput()}
+                >
+                  <IoMdSend size={32} />
+                </span>
+              </div>
             </div>
-            <div className="typing-controls">
+
+            <div className="typing-controls flex justify-center items-center w-14 h-auto ">
               <span
                 id="delete-btn"
-                className="material-symbols-rounded flex justify-start items-center w-[80px]  h-[80px]  cursor-pointer "
+                className=" mb-8 cursor-pointer max-md:mr-10 md:mr-16"
                 onClick={() => setChatMessages([])}
               >
                 <MdCleaningServices size={30} />

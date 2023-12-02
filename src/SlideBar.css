@@ -5,7 +5,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  background-image: url('./assets/backroundmobile.png'); /* Specify the path to your background image */
+  background-image: url('./assets/mobilebg3.jpg'); /* Specify the path to your background image */
   background-size: cover; /* This property ensures that the background image covers the entire container */
   background-repeat: no-repeat; /* Prevent the background image from repeating */
   background-position: center center; /* Center the background image */
