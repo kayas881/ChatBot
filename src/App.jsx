@@ -10,6 +10,8 @@ import stringSimilarity from "string-similarity"; // Import the library
 import SideBar from "./components/SideBar";
 import backgroundImg from "./assets/backround.jpg";
 import mobileBackroundImg from "./assets/backroundmobile.png";
+import axios from "axios";
+
 import userpfp from "./assets/userpfp.png";
 function App() {
   const [chatMessages, setChatMessages] = useState([]);
@@ -58,8 +60,7 @@ function App() {
     setQuestionsVisible(false);
     setSelectedCategory(null);
   };
-
-  const handleUserInput = (question) => {
+  const handleUserInput = async (question) => {
     let userInput = question || inputMessage.trim();
 
     if (userInput !== "") {
@@ -68,8 +69,8 @@ function App() {
 
       setIsTyping(true);
 
-      setTimeout(() => {
-        const chatbotResponse = getChatbotResponse(userInput);
+      setTimeout(async () => {
+        const chatbotResponse = await getChatbotResponse(userInput);
         addChatbotMessage(chatbotResponse);
 
         setIsTyping(false);
@@ -82,13 +83,16 @@ function App() {
   const getChatbotResponse = (userInput) => {
     const trimmedInput = userInput.toLowerCase().trim();
 
-    // Check for common greetings
-    const greetings = ["hello", "hi", "hey", "greetings"];
-    if (greetings.includes(trimmedInput)) {
-      return "Hello! How can I assist you today?";
+    // Check for specific questions in your custom data
+    const matchingQuestion = questionsAndResponses.find(
+      (item) => item.question.toLowerCase() === trimmedInput
+    );
+
+    if (matchingQuestion) {
+      return matchingQuestion.response;
     }
 
-    // Find the most similar question
+    // If no match is found, use the string similarity approach
     const matches = stringSimilarity.findBestMatch(
       trimmedInput,
       questionsAndResponses.map((item) => item.question.toLowerCase())
@@ -100,15 +104,55 @@ function App() {
 
     if (bestMatch.rating > similarityThreshold) {
       // If similarity rating is above the threshold, use the matched question's response
-      const matchingQuestion = questionsAndResponses.find(
+      const similarQuestion = questionsAndResponses.find(
         (item) => item.question.toLowerCase() === bestMatch.target
       );
-      return matchingQuestion
-        ? matchingQuestion.response
+      return similarQuestion
+        ? similarQuestion.response
         : "I did not understand your message.";
-    } else {
-      // If no close match is found, provide a default response
-      return "I did not understand your message.";
+    }
+
+    // If no exact match, fallback to the external ChatGPT API
+    return fetchChatGPTResponse(userInput);
+  };
+
+  const fetchChatGPTResponse = async (userInput) => {
+    const options = {
+      method: "POST",
+      url: "https://chatgpt-42.p.rapidapi.com/conversationgpt4",
+      headers: {
+        "content-type": "application/json",
+        "X-RapidAPI-Key": "2684321697msh4b349ff949477ebp149d2ejsnab8cb5be68b2",
+        "X-RapidAPI-Host": "chatgpt-42.p.rapidapi.com",
+      },
+      data: {
+        messages: [
+          {
+            role: "user",
+            content: userInput,
+          },
+        ],
+        system_prompt: "",
+        temperature: 0.9,
+        top_k: 5,
+        top_p: 0.9,
+        max_tokens: 256,
+        web_access: false,
+      },
+    };
+
+    try {
+      const response = await axios.request(options);
+      console.log(response.data); // Log the entire response data
+
+      if (response.data && response.data.result) {
+        return response.data.result;
+      } else {
+        throw new Error("Unexpected API response");
+      }
+    } catch (error) {
+      console.error(error);
+      return "Sorry, I couldn't process your request.";
     }
   };
 
