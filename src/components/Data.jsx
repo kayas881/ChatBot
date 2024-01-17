@@ -5,6 +5,11 @@ const questionsAndResponses = [
     response:
       'To apply for admission, visit the [college admissions page](https://xaviertech.ac.in/) and navigate to the "Admissions" section. Follow the instructions provided to complete the application process.',
   },
+   {
+    category: "Introduction",
+    question: "Whats your name",
+    response: "Xaviers Chatbot",
+  },
   {
     category: "admission",
     question: "What are the admission requirements?",
